@@ -29,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
 
       :host {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Roboto', sans-serif;
         color: var(--hook-black);
         margin: 0;
         padding: 0;
@@ -115,7 +115,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-tab {
-        margin: 0 10px;
+        margin: 0 20px;
+      }
+
+      paper-tab:last-child {
+        margin-right: 0;
       }
 
       paper-tab a {
@@ -130,6 +134,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         -webkit-flex: 1;
             -ms-flex: 1;
                 flex: 1;
+      }
+
+      @media screen and (max-width: 769px) {
+        paper-tab {
+          margin: 0 10px;
+        }
       }
 
     </style>
