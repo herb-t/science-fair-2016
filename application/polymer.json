@@ -1,5 +1,5 @@
 {
-  "entrypoint": "index.html/",
+  "entrypoint": "/",
   "shell": "src/site-shell.html",
   "fragments": [
     "src/hook-carousel.html",
