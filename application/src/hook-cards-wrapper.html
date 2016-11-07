@@ -1,0 +1,109 @@
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="hook-card.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="hook-cards-wrapper">
+
+  <!--
+
+    `hook-cards-wrapper` is a wrapper element for generating hook card content.
+
+    Example:
+
+      <hook-cards-wrapper></hook-cards-wrapper>
+
+  -->
+
+  <template>
+
+    <style include="shared-styles">
+
+      /*
+        Host element styles
+       */
+
+      :host {
+        display: block;
+        width: 100%;
+      }
+
+      .card:nth-child(n+3) {
+        margin-top: 50px;
+      }
+
+      .link--share-icon {
+        width: 25px;
+        height: 25px;
+      }
+
+      .link--share-icon-fill {
+        fill: var(--hook-pink);
+      }
+
+    </style>
+
+    <iron-ajax
+    auto
+    url="[[contentPathJson]]"
+    handle-as="json"
+    last-response="{{response}}"
+    debounce-duration="300"></iron-ajax>
+
+      <template is="dom-repeat" items="[[response]]">
+
+        <hook-card class="card" image="[[item.image]]">
+          <span card-date>[[item.date]]</span>
+          <h1 card-header>[[item.header]]</h1>
+          <p card-content>[[item.content]]</p>
+          <a href="[[item.link]]" target="_blank" card-link>Read more</a>
+
+          <a href="#" share-facebook>
+            <svg version="1.1" class="link--share-icon" id="facebook" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               width="90px" height="90px" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
+              <g>
+                <path class="link--share-icon-fill" d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998
+                  C0,82.881,7.116,90,15.001,90H45V56H34V41h11v-5.844C45,25.077,52.568,16,61.875,16H74v15H61.875C60.548,31,59,32.611,59,35.024V41
+                  h15v15H59v34h16c7.884,0,15-7.119,15-15.001V15.001z"/>
+              </g>
+            </svg>
+          </a>
+
+          <a href="#" share-twitter>
+            <svg version="1.1" class="link--share-icon" id="twitter" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+               width="510px" height="510px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
+              <g>
+                <path class="link--share-icon-fill" d="M459,0H51C22.95,0,0,22.95,0,51v408c0,28.05,22.95,51,51,51h408c28.05,0,51-22.95,51-51V51C510,22.95,487.05,0,459,0z
+                   M400.35,186.15c-2.55,117.3-76.5,198.9-188.7,204C165.75,392.7,132.6,377.4,102,359.55c33.15,5.101,76.5-7.649,99.45-28.05
+                  c-33.15-2.55-53.55-20.4-63.75-48.45c10.2,2.55,20.4,0,28.05,0c-30.6-10.2-51-28.05-53.55-68.85c7.65,5.1,17.85,7.65,28.05,7.65
+                  c-22.95-12.75-38.25-61.2-20.4-91.8c33.15,35.7,73.95,66.3,140.25,71.4c-17.85-71.4,79.051-109.65,117.301-61.2
+                  c17.85-2.55,30.6-10.2,43.35-15.3c-5.1,17.85-15.3,28.05-28.05,38.25c12.75-2.55,25.5-5.1,35.7-10.2
+                  C425.85,165.75,413.1,175.95,400.35,186.15z"/>
+              </g>
+            </svg>
+          </a>
+
+        </hook-card>
+
+      </template>
+
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        is: 'hook-cards-wrapper',
+
+        properties: {
+          contentPathJson: String,
+          contentPathDB: Array
+        }
+
+      });
+
+    })();
+  </script>
+
+</dom-module>

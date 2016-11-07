@@ -1,0 +1,582 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+
+<dom-module id="hook-carousel">
+  <template>
+
+    <style>
+
+      /**
+       * Host styles
+       */
+
+      :host {
+        --indicator-width: 15px;
+        --indicator-height: 15px;
+        --indicator-color: #F1F2F2;
+        --indicator-color-selected: #cf482a;
+        --indicator-border-radius: 50%;
+        --nav-arrow-size: 24px;
+        --nav-arrow-color: #ffffff;
+
+        width: 100%;
+        height: 92vh;
+
+        display: block;
+        position: relative;
+        cursor: default;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+      }
+
+      /**
+       * Disable text highlighting on carousel elements/cards
+       */
+      
+      :host,
+      #carousel ::content img {
+        -webkit-touch-callout: none;
+           -moz-touch-callout: none;
+            -ms-touch-callout: none;
+                touch-callout: none;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+        -webkit-user-drag: none;
+           -moz-user-drag: none;
+            -ms-user-drag: none;
+                user-drag: none;
+      }
+
+      #carousel ::content img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+
+      /**
+       * Container styles
+       */
+
+      #container {
+        display: block;
+        margin: 0 auto;
+      }
+
+      /**
+       * Indicator styles
+       */
+
+      #indicators {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        -o-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+
+      }
+
+      #indicators button {
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 80px;
+        padding: 0 5px;
+        text-decoration: none;
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+
+      #indicators button:before {
+        content: '';
+        display: block;
+        width: var(--indicator-width);
+        height: var(--indicator-height);
+        border-radius: var(--indicator-border-radius);
+        background: var(--indicator-color);
+        box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, .25);
+        margin: 30px 0;
+        -webkit-transition: background 0.3s ease-in-out;
+           -moz-transition: background 0.3s ease-in-out;
+            -ms-transition: background 0.3s ease-in-out;
+             -o-transition: background 0.3s ease-in-out;
+                transition: background 0.3s ease-in-out;
+      }
+
+      #indicators button.selected:before {
+        background: var(--indicator-color-selected);
+      }
+
+      #indicators button:focus,
+      #indicators button:active,
+      #indicators button.selected {
+        outline: none;
+        border: none;
+      }
+
+      #arrows {
+        position: relative;
+        bottom: -18px;
+        left: 0;
+        display: none;
+      }
+
+      #arrowLeft,
+      #arrowRight {
+        position: absolute;
+        background: rgba(255, 255, 255, 0);
+        z-index: 10;
+        font-family: sans-serif;
+        font-weight: 700;
+        font-size: var(--nav-arrow-size);
+        line-height: var(--nav-arrow-size);
+        color: var(--nav-arrow-color);
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      #arrowLeft {
+        bottom: 30px;
+        left: 10px;
+      }
+
+      #arrowRight {
+        bottom: 30px;
+        right: 10px;
+      }
+
+      :host([indicators]) #indicators {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+      }
+    
+      :host([arrows]) #arrows {
+        display: block;
+      }
+
+      :host-context([dir=rtl]) #arrowLeft,
+      :host-context([dir=rtl]) #arrowRight {
+        -webkit-transform: scaleX(-1);
+           -moz-transform: scaleX(-1);
+            -ms-transform: scaleX(-1);
+             -o-transform: scaleX(-1);
+                transform: scaleX(-1);
+      }
+
+      @media screen and (max-width: 767px) {
+        #indicators button:before {
+          width: 10px;
+          height: 10px;
+          margin: 20px 0 10px 0;
+        }
+
+        #arrowLeft,
+        #arrowRight {
+          font-size: 18px;
+        }
+
+        #arrowLeft {
+          left: 5px;
+        }
+
+        #arrowRight {
+          right: 5px;
+        }
+      }
+
+    </style>
+
+    <div id="container" style$="{{_computeContainerStyle(width, height, ratio)}}">
+
+      <neon-animated-pages id="carousel" items="{{_items}}" selected="{{_selected}}" entry-animation="[[_entryAnimation]]" exit-animation="[[_exitAnimation]]" on-iron-items-changed="_setSingle">
+
+        <content select="*"></content>
+
+      </neon-animated-pages>
+
+      <!-- indicators -->
+      <div id="indicators" class="indicators" hidden$="{{_single}}" role="listbox" aria-controls="carousel">
+        <template is="dom-repeat" items="{{_items}}">
+
+          <button class$="indicator {{_getSelectedClass(index, _selected)}}" role="option" aria-selected="{{_getSelected(index, _selected)}}" on-tap="_onTap"></button>
+
+        </template>
+      </div>
+
+      <!-- nav arrows -->
+      <div id="arrows">
+        <div id="arrowLeft" on-tap="_selectPrev" hidden$="{{_single}}">
+          <span>&#10094;</span>
+        </div>
+
+        <div id="arrowRight" on-tap="_selectNext" hidden$="{{_single}}">
+          <span>&#10095;</span>
+        </div>
+      </div>
+
+    </div>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'hook-carousel',
+
+      /**
+       * Element Listeners
+       * @type {Object}
+       */
+
+      listeners: {
+        'swipe-left': '_onSwipe',
+        'swipe-right': '_onSwipe',
+        down: '_onDown',
+        up: '_onUp'
+      },
+
+      /**
+       * Element Properties
+       * @type {Object}
+       */
+
+      properties: {
+
+        _items: {
+          type: Object,
+          value: function() {
+            return [];
+          }
+        },
+
+        _selected: {
+          type: Number,
+          value: 0
+        },
+
+        _single: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Sets the height of the player on the page.
+         * Accepts anything valid for a CSS measurement, e.g. '200px' or '50%'.
+         * If the unit of measurement is left off, 'px' is assumed.
+         */
+        height: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Sets the width of the player on the page.
+         * Accepts anything valid for a CSS measurement, e.g. '200px' or '50%'.
+         * If the unit of measurement is left off, 'px' is assumed.
+         */
+        width: {
+          type: String,
+          value:''
+        },
+
+        /**
+         * Percentage ratio for container dimensions. Blank if not fluid.
+         */
+        ratio: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * If `fluid` is set, then the carousel will set its width to 100% to fill
+         * the parent container, while adding `padding-top` to preserve the
+         * aspect ratio provided by `width` and `height`. If `width` and `height`
+         * have not been set, the player will fall back to a 16:9 aspect ratio.
+         * This is useful for responsive designs where you don't want to
+         * introduce letterboxing on your video.
+         */
+        fluid: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * horizontal threshold for swipe events
+         */
+        horizontalThreshold: {
+          type: Number,
+          value: 15
+        },
+
+        /**
+         * vertical threshold for swipe events
+         */
+        verticalThreshold: {
+          type: Number,
+          value: 50
+        }
+      },
+
+      _computeContainerStyle: function(width, height, ratio) {
+
+        var style = 'width:' + width + '; height:' + height;
+
+        if (ratio) {
+          style += '; padding-top: ' + ratio;
+        }
+
+        return style;
+
+      },
+
+      /**
+       * Sets fluid width/height.
+       *
+       * If the fluid attribute is set, the aspect ratio of the video will
+       * be inferred. The element will give itself enough top padding to force
+       * the carousel to use the correct aspect ratio, even as the screen size
+       * changes.
+       *
+       */
+      ready: function() {
+        if (this.hasAttribute('fluid')) {
+          var ratio = parseInt(this.height, 10) / parseInt(this.width, 10);
+          this.width = '100%';
+          this.height = 'auto';
+          this.ratio = (ratio * 100) + '%';
+
+
+        }
+      },
+
+      /**
+       * Check if document is rtl
+       */
+      _isRtl: function() {
+
+        return document.body.dir === 'rtl';
+
+      },
+
+      /**
+       * Set single flag for template
+       */
+      _setSingle: function() {
+
+        this._single = this.$.carousel.items.length < 2;
+
+      },
+
+      _clamp: function(value, min, max) {
+
+        return Math.max(Math.min(max, value), min);
+
+      },
+
+      /**
+       * Set Selected function
+       * Sets selected slide
+       * @param  {number} selected - the selected slide
+       */
+      _setSelected: function(selected) {
+
+        var index = this._clamp(selected, 0, this._items.length - 1);
+
+        if (index !== this._selected) {
+
+          if (this.hasAttribute('fade-in-out')) {
+
+            this._entryAnimation = 'fade-in-animation';
+            this._exitAnimation = 'fade-out-animation';
+
+          } else {
+
+            if (this._isRtl() ? index <= this._selected : index > this._selected) {
+                this._entryAnimation = 'slide-from-right-animation';
+                this._exitAnimation = 'slide-left-animation';
+            } else {
+              this._entryAnimation = 'slide-from-left-animation';
+              this._exitAnimation = 'slide-right-animation';
+            }
+
+          }
+
+          this._selected = index;
+
+        }
+
+      },
+
+      /**
+       * On Tap function
+       * Sets selected slide on tap.
+       * @param  {event} e - event fired from tap.
+       */
+      _onTap: function(e) {
+
+        this._setSelected(e.model.index);
+
+      },
+
+      /**
+       * Get Selected function
+       * @param  {number} index - index of selected element.
+       * @param  {number} selected - the selected element.
+       */
+      _getSelected: function(index, selected) {
+
+        return index === selected;
+
+      },
+
+      /**
+       * Get Selected Class function
+       * @param  {number} index - index of selected element.
+       * @param  {number} selected - the selected element.
+       */
+      _getSelectedClass: function(index, selected) {
+
+        return index == selected ? 'selected' : '';
+
+      },
+
+      /**
+       * Respond to swipes
+       * @param {event} e
+       */
+
+      _onSwipe: function(e) {
+
+        var dir = e.type === 'swipe-right' ? 1 : -1;
+        var step = this._isRtl() ? 1 : -1;
+
+        if (this.hasAttribute('locked')) {
+
+          this._setSelected(this._selected + step * dir);
+
+        } else {
+
+          if (e.type === 'swipe-right') {
+            if(this._selected === 0) {
+
+              this._setSelected(this._items.length - 1);
+
+            } else {
+
+              this._setSelected(this._selected - 1);
+
+            }
+          } else {
+            if((this._selected + 1) > (this._items.length - 1)) {
+
+              this._setSelected(0);
+
+            } else {
+
+              this._setSelected(this._selected + 1);
+
+            }
+          }
+
+        }
+
+      },
+
+      /**
+       * Select next function
+       */
+      _selectNext: function() {
+
+        if((this._selected + 1) > (this._items.length - 1)) {
+          this._setSelected(0);
+        } else {
+          this._setSelected(this._selected + 1);
+        }
+
+      },
+
+      /**
+       * Select prev function
+       */
+      _selectPrev: function() {
+
+        if(this._selected === 0) {
+          this._setSelected(this._items.length - 1);
+        } else {
+          this._setSelected(this._selected - 1);
+        }
+
+      },
+
+      /**
+       * swipe behavior
+       * @param {event} e
+       */
+      _onDown: function(event) {
+
+        this._x = event.detail.x;
+        this._y = event.detail.y;
+
+      },
+
+      /**
+       * swipe behavior
+       * @param {event} e
+       */
+      _onUp: function(event) {
+
+        var dx = event.detail.x - this._x;
+        var dy = event.detail.y - this._y;
+        var xDirection = dx > 0;
+        var name = xDirection ? 'swipe-right' : 'swipe-left';
+
+        if (Math.abs(dx) > this.horizontalThreshold && Math.abs(dy) < this.verticalThreshold) {
+
+          this.fire(name);
+
+        }
+      }
+
+    });
+  })();
+  </script>
+</dom-module>

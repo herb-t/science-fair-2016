@@ -1,0 +1,62 @@
+<link rel="import" href="hook-carousel.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="site-hero">
+
+  <!--
+
+    `site-hero` is a wrapper element for the hero.
+
+    Example:
+
+      <site-hero>
+
+        <article class="hero--post">
+          <iron image src="images/pic.png" fade preload></iron-image>
+          <h1 class="hero--post-title">Title</h1>
+          <p class="hero--post-copy">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores reprehenderit atque ducimus mollitia quam, necessitatibus. Enim suscipit aliquam officiis saepe quidem delectus, quasi ut hic dolor sed necessitatibus aut culpa!</p>
+          <a href="#" class="hero--post-link">Read Me</a>
+        </article>
+
+      </site-hero>
+
+  -->
+
+  <template>
+
+    <style include="shared-styles">
+
+      /*
+        Host element styles
+       */
+
+      :host {
+        display: block;
+        margin-top: 55px;
+        overflow: hidden;
+      }
+
+    </style>
+
+      <hook-carousel indicators>
+
+        <content></content>
+
+      </hook-carousel>
+
+  </template>
+
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        is: 'site-hero'
+
+      });
+
+    })();
+  </script>
+
+</dom-module>

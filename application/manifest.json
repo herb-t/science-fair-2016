@@ -1,0 +1,8 @@
+{
+  "name": "hook-tech",
+  "short_name": "hook-tech",
+  "start_url": "/",
+  "background_color": "#fff",
+  "display": "standalone",
+  "theme_color": "#fff"
+}

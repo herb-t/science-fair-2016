@@ -1,0 +1,23 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/site-shell.html",
+  "fragments": [
+    "./src/hook-card.html",
+    "./src/hook-cards-wrapper.html",
+    "./src/hook-carousel.html",
+    "./src/lazy-resources.html",
+    "./src/network-snackbar.html",
+    "./src/shared-styles.html",
+    "./src/site-hero.html"
+  ],
+  "sources": [
+    "./src/**/*",
+    "./images/**/*",
+    "./data/**/*",
+    "./bower.json"
+  ],
+  "includeDependencies": [
+    "./manifest.json",
+    "./bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}
