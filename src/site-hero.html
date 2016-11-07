@@ -1,0 +1,35 @@
+<html><head><link rel="import" href="hook-carousel.html">
+<link rel="import" href="shared-styles.html">
+
+</head><body><dom-module id="site-hero">
+
+  
+
+  <template>
+
+    <style include="shared-styles">
+
+      /*
+        Host element styles
+       */
+
+      :host {
+        display: block;
+        margin-top: 55px;
+        overflow: hidden;
+      }
+
+    </style>
+
+      <hook-carousel indicators="">
+
+        <content></content>
+
+      </hook-carousel>
+
+  </template>
+
+  <script>!function(){"use strict";Polymer({is:"site-hero"})}();</script>
+
+</dom-module>
+</body></html>
