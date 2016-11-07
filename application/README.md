@@ -1,4 +1,4 @@
-# SHOP
+# 2016 Wines Elementary Science Fair 2016
 
 ### Setup
 
