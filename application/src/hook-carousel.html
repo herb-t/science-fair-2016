@@ -1,18 +1,8 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<html><head><link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animatable.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animations.html">
 
-<dom-module id="hook-carousel">
+</head><body><dom-module id="hook-carousel">
   <template>
 
     <style>
@@ -232,7 +222,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       </neon-animated-pages>
 
-      <!-- indicators -->
+      
       <div id="indicators" class="indicators" hidden$="{{_single}}" role="listbox" aria-controls="carousel">
         <template is="dom-repeat" items="{{_items}}">
 
@@ -241,342 +231,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </template>
       </div>
 
-      <!-- nav arrows -->
+      
       <div id="arrows">
         <div id="arrowLeft" on-tap="_selectPrev" hidden$="{{_single}}">
-          <span>&#10094;</span>
+          <span>❮</span>
         </div>
 
         <div id="arrowRight" on-tap="_selectNext" hidden$="{{_single}}">
-          <span>&#10095;</span>
+          <span>❯</span>
         </div>
       </div>
 
     </div>
 
   </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'hook-carousel',
-
-      /**
-       * Element Listeners
-       * @type {Object}
-       */
-
-      listeners: {
-        'swipe-left': '_onSwipe',
-        'swipe-right': '_onSwipe',
-        down: '_onDown',
-        up: '_onUp'
-      },
-
-      /**
-       * Element Properties
-       * @type {Object}
-       */
-
-      properties: {
-
-        _items: {
-          type: Object,
-          value: function() {
-            return [];
-          }
-        },
-
-        _selected: {
-          type: Number,
-          value: 0
-        },
-
-        _single: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * Sets the height of the player on the page.
-         * Accepts anything valid for a CSS measurement, e.g. '200px' or '50%'.
-         * If the unit of measurement is left off, 'px' is assumed.
-         */
-        height: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Sets the width of the player on the page.
-         * Accepts anything valid for a CSS measurement, e.g. '200px' or '50%'.
-         * If the unit of measurement is left off, 'px' is assumed.
-         */
-        width: {
-          type: String,
-          value:''
-        },
-
-        /**
-         * Percentage ratio for container dimensions. Blank if not fluid.
-         */
-        ratio: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * If `fluid` is set, then the carousel will set its width to 100% to fill
-         * the parent container, while adding `padding-top` to preserve the
-         * aspect ratio provided by `width` and `height`. If `width` and `height`
-         * have not been set, the player will fall back to a 16:9 aspect ratio.
-         * This is useful for responsive designs where you don't want to
-         * introduce letterboxing on your video.
-         */
-        fluid: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * horizontal threshold for swipe events
-         */
-        horizontalThreshold: {
-          type: Number,
-          value: 15
-        },
-
-        /**
-         * vertical threshold for swipe events
-         */
-        verticalThreshold: {
-          type: Number,
-          value: 50
-        }
-      },
-
-      _computeContainerStyle: function(width, height, ratio) {
-
-        var style = 'width:' + width + '; height:' + height;
-
-        if (ratio) {
-          style += '; padding-top: ' + ratio;
-        }
-
-        return style;
-
-      },
-
-      /**
-       * Sets fluid width/height.
-       *
-       * If the fluid attribute is set, the aspect ratio of the video will
-       * be inferred. The element will give itself enough top padding to force
-       * the carousel to use the correct aspect ratio, even as the screen size
-       * changes.
-       *
-       */
-      ready: function() {
-        if (this.hasAttribute('fluid')) {
-          var ratio = parseInt(this.height, 10) / parseInt(this.width, 10);
-          this.width = '100%';
-          this.height = 'auto';
-          this.ratio = (ratio * 100) + '%';
-
-
-        }
-      },
-
-      /**
-       * Check if document is rtl
-       */
-      _isRtl: function() {
-
-        return document.body.dir === 'rtl';
-
-      },
-
-      /**
-       * Set single flag for template
-       */
-      _setSingle: function() {
-
-        this._single = this.$.carousel.items.length < 2;
-
-      },
-
-      _clamp: function(value, min, max) {
-
-        return Math.max(Math.min(max, value), min);
-
-      },
-
-      /**
-       * Set Selected function
-       * Sets selected slide
-       * @param  {number} selected - the selected slide
-       */
-      _setSelected: function(selected) {
-
-        var index = this._clamp(selected, 0, this._items.length - 1);
-
-        if (index !== this._selected) {
-
-          if (this.hasAttribute('fade-in-out')) {
-
-            this._entryAnimation = 'fade-in-animation';
-            this._exitAnimation = 'fade-out-animation';
-
-          } else {
-
-            if (this._isRtl() ? index <= this._selected : index > this._selected) {
-                this._entryAnimation = 'slide-from-right-animation';
-                this._exitAnimation = 'slide-left-animation';
-            } else {
-              this._entryAnimation = 'slide-from-left-animation';
-              this._exitAnimation = 'slide-right-animation';
-            }
-
-          }
-
-          this._selected = index;
-
-        }
-
-      },
-
-      /**
-       * On Tap function
-       * Sets selected slide on tap.
-       * @param  {event} e - event fired from tap.
-       */
-      _onTap: function(e) {
-
-        this._setSelected(e.model.index);
-
-      },
-
-      /**
-       * Get Selected function
-       * @param  {number} index - index of selected element.
-       * @param  {number} selected - the selected element.
-       */
-      _getSelected: function(index, selected) {
-
-        return index === selected;
-
-      },
-
-      /**
-       * Get Selected Class function
-       * @param  {number} index - index of selected element.
-       * @param  {number} selected - the selected element.
-       */
-      _getSelectedClass: function(index, selected) {
-
-        return index == selected ? 'selected' : '';
-
-      },
-
-      /**
-       * Respond to swipes
-       * @param {event} e
-       */
-
-      _onSwipe: function(e) {
-
-        var dir = e.type === 'swipe-right' ? 1 : -1;
-        var step = this._isRtl() ? 1 : -1;
-
-        if (this.hasAttribute('locked')) {
-
-          this._setSelected(this._selected + step * dir);
-
-        } else {
-
-          if (e.type === 'swipe-right') {
-            if(this._selected === 0) {
-
-              this._setSelected(this._items.length - 1);
-
-            } else {
-
-              this._setSelected(this._selected - 1);
-
-            }
-          } else {
-            if((this._selected + 1) > (this._items.length - 1)) {
-
-              this._setSelected(0);
-
-            } else {
-
-              this._setSelected(this._selected + 1);
-
-            }
-          }
-
-        }
-
-      },
-
-      /**
-       * Select next function
-       */
-      _selectNext: function() {
-
-        if((this._selected + 1) > (this._items.length - 1)) {
-          this._setSelected(0);
-        } else {
-          this._setSelected(this._selected + 1);
-        }
-
-      },
-
-      /**
-       * Select prev function
-       */
-      _selectPrev: function() {
-
-        if(this._selected === 0) {
-          this._setSelected(this._items.length - 1);
-        } else {
-          this._setSelected(this._selected - 1);
-        }
-
-      },
-
-      /**
-       * swipe behavior
-       * @param {event} e
-       */
-      _onDown: function(event) {
-
-        this._x = event.detail.x;
-        this._y = event.detail.y;
-
-      },
-
-      /**
-       * swipe behavior
-       * @param {event} e
-       */
-      _onUp: function(event) {
-
-        var dx = event.detail.x - this._x;
-        var dy = event.detail.y - this._y;
-        var xDirection = dx > 0;
-        var name = xDirection ? 'swipe-right' : 'swipe-left';
-
-        if (Math.abs(dx) > this.horizontalThreshold && Math.abs(dy) < this.verticalThreshold) {
-
-          this.fire(name);
-
-        }
-      }
-
-    });
-  })();
-  </script>
+  <script>!function(){"use strict";Polymer({is:"hook-carousel",listeners:{"swipe-left":"_onSwipe","swipe-right":"_onSwipe",down:"_onDown",up:"_onUp"},properties:{_items:{type:Object,value:function(){return[]}},_selected:{type:Number,value:0},_single:{type:Boolean,value:!1},height:{type:String,value:""},width:{type:String,value:""},ratio:{type:String,value:""},fluid:{type:Boolean,value:!1},horizontalThreshold:{type:Number,value:15},verticalThreshold:{type:Number,value:50}},_computeContainerStyle:function(t,e,i){var s="width:"+t+"; height:"+e;return i&&(s+="; padding-top: "+i),s},ready:function(){if(this.hasAttribute("fluid")){var t=parseInt(this.height,10)/parseInt(this.width,10);this.width="100%",this.height="auto",this.ratio=100*t+"%"}},_isRtl:function(){return"rtl"===document.body.dir},_setSingle:function(){this._single=this.$.carousel.items.length<2},_clamp:function(t,e,i){return Math.max(Math.min(i,t),e)},_setSelected:function(t){var e=this._clamp(t,0,this._items.length-1);e!==this._selected&&(this.hasAttribute("fade-in-out")?(this._entryAnimation="fade-in-animation",this._exitAnimation="fade-out-animation"):(this._isRtl()?e<=this._selected:e>this._selected)?(this._entryAnimation="slide-from-right-animation",this._exitAnimation="slide-left-animation"):(this._entryAnimation="slide-from-left-animation",this._exitAnimation="slide-right-animation"),this._selected=e)},_onTap:function(t){this._setSelected(t.model.index)},_getSelected:function(t,e){return t===e},_getSelectedClass:function(t,e){return t==e?"selected":""},_onSwipe:function(t){var e="swipe-right"===t.type?1:-1,i=this._isRtl()?1:-1;this.hasAttribute("locked")?this._setSelected(this._selected+i*e):"swipe-right"===t.type?0===this._selected?this._setSelected(this._items.length-1):this._setSelected(this._selected-1):this._selected+1>this._items.length-1?this._setSelected(0):this._setSelected(this._selected+1)},_selectNext:function(){this._selected+1>this._items.length-1?this._setSelected(0):this._setSelected(this._selected+1)},_selectPrev:function(){0===this._selected?this._setSelected(this._items.length-1):this._setSelected(this._selected-1)},_onDown:function(t){this._x=t.detail.x,this._y=t.detail.y},_onUp:function(t){var e=t.detail.x-this._x,i=t.detail.y-this._y,s=e>0,n=s?"swipe-right":"swipe-left";Math.abs(e)>this.horizontalThreshold&&Math.abs(i)<this.verticalThreshold&&this.fire(n)}})}();</script>
 </dom-module>
+</body></html>
