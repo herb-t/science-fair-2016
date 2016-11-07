@@ -1,0 +1,65 @@
+[
+  {
+    "date": "09.27.16",
+    "image": "images/logo-youtube.png",
+    "header": "Cyber Warfare in 2016",
+    "content": "A look at cyber warfare as it pertains to the world in 2016.",
+    "link": "https://www.youtube.com/watch?v=kEKLzXxOF84"
+  },
+  {
+    "date": "06.15.16",
+    "image": "images/logo-youtube.png",
+    "header": "Polymer CLI",
+    "content": "Polymer CLI is a new tool to help you quickly scaffold together your Progressive Web Apps.",
+    "link": "https://www.youtube.com/watch?v=pj2lmXVa84U"
+  },
+  {
+    "date": "01.10.16",
+    "image": "images/logo-medium.png",
+    "header": "Respect Yourself! Use Gulp.",
+    "content": "Gulp is a program that you can use to automate everything about developing on your project. It’s called a build system, build tool, or task runner. Instead of having to me.",
+    "link": "https://medium.com/@danrschlosser/respect-yourself-use-gulp-bb1d17b1640c#.ho94nee46"
+  },
+  {
+    "date": "12.09.15",
+    "image": "images/logo-youtube.png",
+    "header": "YouTube Rewind",
+    "content": "YouTube Rewind 2015. Celebrating the videos, people, music and moves that made 2015. #YouTubeRewind",
+    "link": "https://www.youtube.com/watch?v=KK9bwTlAvgo"
+  },
+  {
+    "date": "07.30.15",
+    "image": "images/logo-medium.png",
+    "header": "CSS Preprocessors: A Guide to Efficient Stylesheets",
+    "content": "Cascading style sheets give web developers the ability to organize basic html content in a beautiful and robust way. On it’s own, CSS has many powerful features, however it can often be inefficient without the aide of third party tools, which can also add useful functionality.",
+    "link": "https://medium.com/@gocodal/css-preprocessors-a-guide-to-efficient-stylesheets-62c219c07443#.l6nnc8muc"
+  },
+  {
+    "date": "02.13.15",
+    "image": "images/logo-codepen.png",
+    "header": "Chill the lion",
+    "content": "WebGL using THREEJS. Move the fan and press to make wind, the lion will surely appreciate.",
+    "link": "http://codepen.io/Yakudoo/pen/YXxmYR"
+  },
+  {
+    "date": "01.03.15",
+    "image": "images/logo-codepen.png",
+    "header": "CSS Loaders",
+    "content": "A collection of HTML and CSS loader animations.",
+    "link": "http://codepen.io/RRoberts/pen/pEXWEp"
+  },
+  {
+    "date": "08.09.12",
+    "image": "images/logo-codepen.png",
+    "header": "CustomEase Demo Explorer Advanced",
+    "content": "Play around with the new GSAP CustomEase plugin.",
+    "link": "http://codepen.io/GreenSock/pen/xEPaBg"
+  },
+  {
+    "date": "07.11.08",
+    "image": "images/logo-medium.png",
+    "header": "Time Breakdown of Modern Web Design",
+    "content": "An infographic time breakdown of modern web design.",
+    "link": "https://medium.com/@tedr/time-breakdown-of-modern-web-design-1853161d3ab8#.vj6anrr2r"
+  }
+]
