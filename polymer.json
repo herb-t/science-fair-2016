@@ -1,28 +1,28 @@
 {
-  "entrypoint": "index.html",
+  "entrypoint": "/",
   "shell": "src/site-shell.html",
   "fragments": [
-    "./src/hook-carousel.html",
-    "./src/lazy-resources.html",
-    "./src/network-snackbar.html",
-    "./src/shared-styles.html",
-    "./src/site-hero.html",
-    "./src/site-home.html",
-    "./src/site-page-artic.html",
-    "./src/site-page-desert.html",
-    "./src/site-page-home.html",
-    "./src/site-page-jungle.html",
-    "./src/site-page-safari.html",
-    "./src/site-page-underwater.html"
+    "src/hook-carousel.html",
+    "src/lazy-resources.html",
+    "src/network-snackbar.html",
+    "src/shared-styles.html",
+    "src/site-hero.html",
+    "src/site-home.html",
+    "src/site-page-artic.html",
+    "src/site-page-desert.html",
+    "src/site-page-home.html",
+    "src/site-page-jungle.html",
+    "src/site-page-safari.html",
+    "src-site-page-underwater.html"
   ],
   "sources": [
-    "./src/**/*",
-    "./images/**/*",
-    "./data/**/*",
-    "./bower.json"
+    "src/**/*",
+    "images/**/*",
+    "data/**/*",
+    "bower.json"
   ],
   "includeDependencies": [
-    "./manifest.json",
-    "./bower_components/webcomponentsjs/webcomponents-lite.min.js"
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }
