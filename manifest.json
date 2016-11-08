@@ -1,8 +1,0 @@
-{
-  "name": "Wines Science Fair 2016",
-  "short_name": "WebApp",
-  "start_url": "/",
-  "background_color": "#fff",
-  "display": "standalone",
-  "theme_color": "#fff"
-}
