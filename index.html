@@ -26,11 +26,20 @@
       max-height: 100vh;
     }
 
+    site-shell {
+      -webkit-transition: opacity 0.3s ease-out;
+         -moz-transition: opacity 0.3s ease-out;
+          -ms-transition: opacity 0.3s ease-out;
+           -o-transition: opacity 0.3s ease-out;
+              transition: opacity 0.3s ease-out;
+    }
+
     /* styling for render while resources are loading */
     site-shell[unresolved] {
       display: block;
       padding: 0 16px;
       overflow: hidden;
+      opacity: 0;
     }
 
   </style>
