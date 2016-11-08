@@ -1,13 +1,13 @@
 {
   "entrypoint": "index.html",
   "shell": "src/site-shell.html",
+  "fragments": [
+    "src/lazy-resources.html"
+  ],
   "sources": [
     "src/**/*",
     "images/**/*",
-    "data/**/*",
-    "bower.json",
-    "sw-precache-config.js",
-    "service-worker.js"
+    "bower.json"
   ],
   "includeDependencies": [
     "manifest.json",
