@@ -1,0 +1,72 @@
+<html><head><link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+</head><body><dom-module id="site-page-desert">
+
+  <template>
+
+    <style include="shared-styles">
+
+      /*
+        Host element styles
+       */
+
+      :host {
+        display: block;
+      }
+
+      main {
+        width: 100%;
+        height: 100%;
+      }
+
+      .alt-height {
+        height: 200px;
+      }
+
+    </style>
+
+    <main>
+      <site-hero class="hero">
+
+        <article class="hero--post hero--post__top-left">
+          <iron-image class="hero--post-image" preload="" fade="" sizing="cover" src="../images/desert/armadillo.jpg"></iron-image>
+          <div class="hero--post-content">
+            <span class="hero--post-title">Armadillo</span>
+            <p>Armadillos are barrel-shaped animals covered with natural armor and the only species that can roll into a ball for protection. The armadillo's armor works well against most predators, but not against cars.</p>
+          </div>
+        </article>
+
+        <article class="hero--post hero--post__top-right">
+          <iron-image class="hero--post-image" preload="" fade="" sizing="cover" src="../images/desert/desert-fox.jpg"></iron-image>
+          <div class="hero--post-content">
+            <span class="hero--post-title">Fennec Fox</span>
+            <p>The fennec fox is the smallest of all the world's foxes. It has large ears measuring 6 inches. Fennec foxes dwell in the sandy Sahara and elsewhere in North Africa.</p>
+          </div>
+        </article>
+
+        <article class="hero--post hero--post__top-right">
+          <iron-image class="hero--post-image alt-height" preload="" fade="" sizing="cover" src="../images/desert/desert-fox-2.jpg"></iron-image>
+          <div class="hero--post-content">
+            <span class="hero--post-title">Fennec Fox</span>
+            <p>Fennec foxes are also super cute!</p>
+          </div>
+        </article>
+
+        <article class="hero--post hero--post__bottom-right">
+          <iron-image class="hero--post-image" preload="" fade="" sizing="cover" src="../images/desert/camel.jpg"></iron-image>
+          <div class="hero--post-content">
+            <span class="hero--post-title">Camel</span>
+            <p>Camels are unique-looking creatures that are easily recognized because of their humps. They live in the desert areas of Africa and Asia.</p>
+          </div>
+        </article>
+
+      </site-hero>
+    </main>
+
+  </template>
+
+  <script>!function(){"use strict";Polymer({is:"site-page-desert"})}();</script>
+
+</dom-module>
+</body></html>
