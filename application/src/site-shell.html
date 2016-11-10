@@ -105,8 +105,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       @media screen and (max-width: 769px) {
+        #header-title {
+          font-size: 16px;
+        }
+
         paper-tab {
           margin: 0 10px;
+        }
+
+        paper-tab a {
+          font-size: 14px;
         }
       }
 
@@ -126,7 +134,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-tab noink link key='jungle'><a href="#/jungle">jungle</a></paper-tab>
         <paper-tab noink link key='artic'><a href="#/artic">artic</a></paper-tab>
         <paper-tab noink link key='desert'><a href="#/desert">desert</a></paper-tab>
-        <paper-tab noink link key='underwater'><a href="#/underwater">underwater</a></paper-tab>
+        <paper-tab noink link key='ocean'><a href="#/ocean">ocean</a></paper-tab>
       </paper-tabs>
 
     </header>
@@ -160,7 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <site-page-desert route="{{pageTail}}"></site-page-desert>
       </neon-animatable>
 
-      <neon-animatable key="underwater">
+      <neon-animatable key="ocean">
         <site-page-underwater route="{{pageTail}}"></site-page-underwater>
       </neon-animatable>
 

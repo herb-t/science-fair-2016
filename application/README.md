@@ -1,4 +1,4 @@
-# 2016 Wines Elementary Science Fair 2016
+# Animals Around The World WebApp
 
 ### Setup
 
